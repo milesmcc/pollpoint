@@ -1,5 +1,7 @@
 {% extends 'poller/base.html' %}
 
 {% block content %}
-<p class="has-text-danger is-size-1"><strong>Error 500</strong> We were unable to connect you to the internet. Please try again later!</p>
+<div class="notification is-warning">
+  <strong>Oh no!</strong> We couldn't connect to the Internet. We're sorry. Please try again later.
+</div>
 {% endblock %}

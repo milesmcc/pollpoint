@@ -1,6 +1,35 @@
 {% extends 'poller/base.html' %}
 
 {% block content %}
+
+{% if issue %}
+<div class="notification is-danger">
+    Please answer the required question before connecting!
+</div>
+{% endif %}
 <p>Before connecting, please answer the following simple question.</p>
-<p>(question here)</p>
+<br>
+<form action="/connect" method="POST">
+    {% csrf_token %}
+    <div class="box">
+        <p class="poll-title">{{poll.title}}</p>
+        <p class="has-text-grey poll-subtitle"><small>Please select one option below.</small></p>
+        <div class="control">
+            {% for option in poll.options %}
+            <label class="radio">
+                <input type="radio" name="choice" value="{{option.id}}">
+                {{option.title}}
+            </label>
+            <br>
+            {% endfor %}
+        </div>
+    </div>
+    <label class="checkbox">
+        <input type="checkbox">
+        I agree to follow all appropriate laws and regulations while using CityLink Public WiFi.
+    </label>
+    <br>
+    <br>
+    <button type="submit" class="button is-link">Connect</button>
+</form>
 {% endblock %}

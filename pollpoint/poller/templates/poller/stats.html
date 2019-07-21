@@ -1,0 +1,40 @@
+{% extends 'poller/base.html' %}
+
+{% block content %}
+<h1 class="title">Live Statistics</h1>
+<br>
+{% for poll in polls %}
+<div class="box">
+    <p class="poll-title is-size-5">{{poll.title}}</p>
+    <div class="field is-grouped is-grouped-multiline">
+        <div class="control">
+            <div class="tags has-addons">
+                <span class="tag is-dark">Status</span>
+                {% if poll.active %}
+                <span class="tag is-success">Active</span>
+                {% else %}
+                <span class="tag is-danger">Inactive</span>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="control">
+            <div class="tags has-addons">
+                <span class="tag is-dark">Votes</span>
+                <span class="tag is-info">{{poll.total_votes}}</span>
+            </div>
+        </div>
+    </div>
+    <table class="table is-fullwidth">
+        {% for option in poll.options_sorted %}
+        <tr>
+            <td class="is-narrow has-text-weight-medium">{{option.title}}</td>
+            <td class="is-narrow">{{option.vote_ratio}}%</td>
+            <td><progress class="progress is-link" value="{{option.vote_ratio}}"
+                max="100">{{option.vote_ratio}}%</progress></td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endfor %}
+{% endblock %}

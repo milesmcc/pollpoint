@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*'] # sketchy, but this is a sketchy app!
 
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 
 # Application definition
 

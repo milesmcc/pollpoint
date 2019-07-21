@@ -1,0 +1,11 @@
+.container {
+    max-width: 700px;
+}
+
+.poll-title {
+    font-weight: bold;
+}
+
+.poll-subtitle {
+    padding-bottom: 0.5em;
+}
