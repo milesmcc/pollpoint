@@ -1,22 +1,21 @@
 {% extends 'poller/base.html' %}
 
 {% block content %}
-
+<h3 class="title is-size-4">Let's get you online.</h3>
+<p class="subtitle padding">CityLink Public WiFi doesn't require personal information or your email.<br>Please answer one survey question to connect.</p>
 {% if issue %}
 <div class="notification is-danger">
     Please answer the required question before connecting!
 </div>
 {% endif %}
-<p>Before connecting, please answer the following simple question.</p>
-<br>
 <form action="/connect" method="POST">
     {% csrf_token %}
-    <div class="box">
+    <div class="box larger">
         <p class="poll-title">{{poll.title}}</p>
         <p class="has-text-grey poll-subtitle"><small>Please select one option below.</small></p>
         <div class="control">
             {% for option in poll.options %}
-            <label class="radio">
+            <label class="radio larger">
                 <input type="radio" name="choice" value="{{option.id}}">
                 {{option.title}}
             </label>

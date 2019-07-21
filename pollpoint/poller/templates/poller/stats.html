@@ -1,8 +1,9 @@
 {% extends 'poller/base.html' %}
 
+{% load humanize %}
+
 {% block content %}
-<h1 class="title">Live Statistics</h1>
-<br>
+<h1 class="title">Poll Statistics</h1>
 {% for poll in polls %}
 <div class="box">
     <p class="poll-title is-size-5">{{poll.title}}</p>
@@ -29,7 +30,7 @@
         {% for option in poll.options_sorted %}
         <tr>
             <td class="is-narrow has-text-weight-medium">{{option.title}}</td>
-            <td class="is-narrow">{{option.vote_ratio}}%</td>
+            <td class="is-narrow">{{option.vote_ratio|floatformat}}%</td>
             <td><progress class="progress is-link" value="{{option.vote_ratio}}"
                 max="100">{{option.vote_ratio}}%</progress></td>
         </tr>
@@ -37,4 +38,30 @@
     </table>
 </div>
 {% endfor %}
+<br><br>
+<h1 class="title">Usage Statistics</h1>
+<table class="table">
+    <thead>
+        <th>ID</th>
+        <th>First Seen</th>
+        <th>User Agent</th>
+        <th>Voted</th>
+    </thead>
+    <tbody>
+        {% for session in sessions %}
+        <tr>
+            <td>{{session.id}}</td>
+            <td>{{session.first_connected|naturaltime}}</td>
+            <td>{{session.user_agent}}</td>
+            <td>
+                {% if session.has_voted %}
+                <span class="tag is-success">Yes</span>
+                {% else %}
+                <span class="tag is-danger">No</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

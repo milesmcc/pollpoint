@@ -33,5 +33,6 @@ def error(request):
 @login_required
 def stats(request):
     return render(request, "poller/stats.html", {
-        "polls": Poll.objects.all()
+        "polls": Poll.objects.all(),
+        "sessions": SessionUser.objects.all().order_by("-first_connected")
     })

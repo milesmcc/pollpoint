@@ -1,7 +1,25 @@
 {% extends 'poller/base.html' %}
+{% load static %}
+
+{% block head %}
+<script src="{% static 'poller/jquery.js' %}"></script>
+{% endblock %}
 
 {% block content %}
-<div class="notification is-warning">
-  <strong>Oh no!</strong> We couldn't connect to the Internet. We're sorry. Please try again later.
+<div class="loading has-text-centered">
+  <h1 class="title">Please wait while we connect you...</h1>
+  <img src="{% static 'poller/loading.gif' %}">
 </div>
+<div class="error" style="display: none;">
+  <div class="notification is-warning">
+    <strong>Oh no!</strong> We couldn't connect to the Internet. We're sorry. Please try again later.
+  </div>
+</div>
+<script>
+
+setTimeout(function() {
+    $('.loading').hide();
+    $(".error").show();
+}, 15000);
+</script>
 {% endblock %}
