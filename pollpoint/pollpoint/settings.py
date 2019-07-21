@@ -25,7 +25,7 @@ SECRET_KEY = 'idvz-+a1t=y3o(zd*0bzyd78dehx&7zg!wy0qq6f#nfhdrs27i'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*'] # sketchy, but this is a sketchy app!
 
 
 # Application definition
