@@ -5,14 +5,16 @@
 {% block content %}
 <h1 class="title">Update & Reboot</h1>
 
-<form target="/stats" action="GET">
+<form action="/stats" method="GET">
     <input class="input" type="text" placeholder="New SSID...">
 </form>
-
+<br>
 <div class="controls">
     <a href="/stats?dnsmasq=True" class="button is-link">Fix dnsmasq</a>
     <a href="/stats?reboot=True" class="button is-warning">Reboot</a>
 </div>
+
+<br><br>
 
 <h1 class="title">Poll Statistics</h1>
 {% for poll in polls %}
