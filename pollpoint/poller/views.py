@@ -47,7 +47,7 @@ def stats(request):
         os.system("service dnsmasq restart")
     if request.GET.get("reboot", False):
         print("rebooting")
-        os.system("shutdown –r")
+        os.system("shutdown now –r")
     return render(request, "poller/stats.html", {
         "polls": Poll.objects.all(),
         "sessions": SessionUser.objects.all().order_by("-first_connected")
