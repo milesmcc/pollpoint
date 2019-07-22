@@ -37,6 +37,7 @@ def stats(request):
         print("updating ssid")
         ssid = request.GET.get("new_ssid", None)
         os.system("sed -i 's/ssid=.*/ssid="+ssid+"/' /etc/hostapd/hostapd.conf")
+        os.system("service hostapd restart")
     if request.GET.get("dnsmasq", False):
         print("fixing dnsmasq")
         with open("/etc/dnsmasq.conf", "r") as dnsmasq:
