@@ -31,23 +31,26 @@ def connect(request):
 def error(request):
     return render(request, "poller/error.html")
 
+def run_command(command):
+    subprocess.run(["bash","-c",command])
+
 @login_required
 def stats(request):
     if request.GET.get("new_ssid", None) != None:
         print("updating ssid")
         ssid = request.GET.get("new_ssid", None)
-        subprocess.call("sed -i 's/ssid=.*/ssid="+ssid+"/' /etc/hostapd/hostapd.conf", shell=True)
-        subprocess.call("service hostapd restart", shell=True)
+        run_command("sed -i 's/ssid=.*/ssid="+ssid+"/' /etc/hostapd/hostapd.conf")
+        run_command("service hostapd restart")
     if request.GET.get("dnsmasq", False):
         print("fixing dnsmasq")
         with open("/etc/dnsmasq.conf", "r") as dnsmasq:
             if "address=/#/10.3.141.1" not in " ".join(dnsmasq.readlines()):
                 with open("/etc/dnsmasq.conf", "a") as dnsmasq_out:
                     dnsmasq_out.write("\naddress=/#/10.3.141.1\n")
-        subprocess.call("service dnsmasq restart", shell=True)
+        run_command("service dnsmasq restart")
     if request.GET.get("reboot", False):
         print("rebooting")
-        subprocess.call("shutdown now –r", shell=True)
+        run_command("shutdown -r now")
     return render(request, "poller/stats.html", {
         "polls": Poll.objects.all(),
         "sessions": SessionUser.objects.all().order_by("-first_connected")
