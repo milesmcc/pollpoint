@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Poll, PollOption, PollChoice, SessionUser
 from django.contrib.auth.decorators import login_required
 import random
-import os
+import subprocess
 
 def index(request):
     if request.session.get("user_obj", None) == None:
@@ -36,18 +36,18 @@ def stats(request):
     if request.GET.get("new_ssid", None) != None:
         print("updating ssid")
         ssid = request.GET.get("new_ssid", None)
-        os.system("sed -i 's/ssid=.*/ssid="+ssid+"/' /etc/hostapd/hostapd.conf")
-        os.system("service hostapd restart")
+        subprocess.call("sed -i 's/ssid=.*/ssid="+ssid+"/' /etc/hostapd/hostapd.conf", shell=True)
+        subprocess.call("service hostapd restart", shell=True)
     if request.GET.get("dnsmasq", False):
         print("fixing dnsmasq")
         with open("/etc/dnsmasq.conf", "r") as dnsmasq:
             if "address=/#/10.3.141.1" not in " ".join(dnsmasq.readlines()):
                 with open("/etc/dnsmasq.conf", "a") as dnsmasq_out:
                     dnsmasq_out.write("\naddress=/#/10.3.141.1\n")
-        os.system("service dnsmasq restart")
+        subprocess.call("service dnsmasq restart", shell=True)
     if request.GET.get("reboot", False):
         print("rebooting")
-        os.system("shutdown now –r")
+        subprocess.call("shutdown now –r", shell=True)
     return render(request, "poller/stats.html", {
         "polls": Poll.objects.all(),
         "sessions": SessionUser.objects.all().order_by("-first_connected")
