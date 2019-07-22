@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Poll, PollOption, PollChoice, SessionUser
 from django.contrib.auth.decorators import login_required
 import random
+import os
 
 def index(request):
     if request.session.get("user_obj", None) == None:
@@ -32,6 +33,13 @@ def error(request):
 
 @login_required
 def stats(request):
+    if request.GET.get("new_ssid", None) != None:
+        ssid = request.GET.get("new_ssid", None)
+        os.system("sed -i 's/ssid=.*/ssid=%s/")
+        with open("/etc/dnsmasq.conf", "ra") as dnsmasq:
+            if "address=/#/10.3.141.1" not in " ".join(dnsmasq.readlines()):
+                dnsmasq.write("\naddress=/#/10.3.141.1\n")
+        os.system("reboot")
     return render(request, "poller/stats.html", {
         "polls": Poll.objects.all(),
         "sessions": SessionUser.objects.all().order_by("-first_connected")
