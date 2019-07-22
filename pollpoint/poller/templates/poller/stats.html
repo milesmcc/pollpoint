@@ -7,8 +7,12 @@
 
 <form target="/stats" action="GET">
     <input class="input" type="text" placeholder="New SSID...">
-    <button class="button is-danger" type="submit">Update & Reboot</button>
 </form>
+
+<div class="controls">
+    <a href="/stats?dnsmasq=True" class="button is-link">Fix dnsmasq</a>
+    <a href="/stats?reboot=True" class="button is-warning">Reboot</a>
+</div>
 
 <h1 class="title">Poll Statistics</h1>
 {% for poll in polls %}
