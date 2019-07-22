@@ -36,12 +36,13 @@ def stats(request):
     if request.GET.get("new_ssid", None) != None:
         print("updating ssid")
         ssid = request.GET.get("new_ssid", None)
-        os.system("sed -i 's/ssid=.*/ssid=%s/ /etc/hostapd/hostapd.conf")
+        os.system("sed -i 's/ssid=.*/ssid=%s/' /etc/hostapd/hostapd.conf")
     if request.GET.get("dnsmasq", False):
         print("fixing dnsmasq")
-        with open("/etc/dnsmasq.conf", "ra") as dnsmasq:
+        with open("/etc/dnsmasq.conf", "r") as dnsmasq:
             if "address=/#/10.3.141.1" not in " ".join(dnsmasq.readlines()):
-                dnsmasq.write("\naddress=/#/10.3.141.1\n")
+                with open("/etc/dnsmasq.conf", "a") as dnsmasq_out:
+                    dnsmasq_out.write("\naddress=/#/10.3.141.1\n")
         os.system("service dnsmasq restart")
     if request.GET.get("reboot", False):
         print("rebooting")
